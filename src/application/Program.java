@@ -13,11 +13,14 @@ public class Program {
 		
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 
-		Department dep = new Department(2, null);
-		Seller newSeller = new Seller(null, "Rubervaldo", "rubervaldo@gmail.com", new Date(), 4000.0, dep);
-		sellerDao.insert(newSeller);
+		//Seller seller = null;
 		
-		System.out.println("Inserted! New id is = " + newSeller.getId());
+		Seller seller = sellerDao.findById(1);
+		seller.setName("Martha Waine");
+		sellerDao.update(seller);
+		System.out.println("Update completed!");
+		
+		
 		
 	}
 

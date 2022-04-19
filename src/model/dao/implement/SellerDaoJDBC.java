@@ -26,25 +26,23 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void insert(Seller obj) {
-		
+
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO seller "
-					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
-					+ "VALUES "
-					+ "(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-			
+			ps = con.prepareStatement("INSERT INTO seller " + "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+					+ "VALUES " + "(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+
 			ps.setString(1, obj.getName());
 			ps.setString(2, obj.getEmail());
 			ps.setDate(3, new java.sql.Date(obj.getBithDate().getTime()));
 			ps.setDouble(4, obj.getBaseSalary());
 			ps.setInt(5, obj.getDepartment().getId());
-			
+
 			int rowsAffected = ps.executeUpdate();
-			
-			if(rowsAffected > 0) {
+
+			if (rowsAffected > 0) {
 				ResultSet rs = ps.getGeneratedKeys();
-				if(rs.next()) {
+				if (rs.next()) {
 					int id = rs.getInt(1);
 					obj.setId(id);
 				}
@@ -52,11 +50,9 @@ public class SellerDaoJDBC implements SellerDao {
 			} else {
 				throw new DbException("Unexpected error! No rows affected!!!");
 			}
-		}
-		catch(SQLException i) {
+		} catch (SQLException i) {
 			throw new DbException(i.getMessage());
-		}
-		finally {
+		} finally {
 			DB.closeStatement(ps);
 		}
 
@@ -64,7 +60,23 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void update(Seller obj) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("UPDATE seller "
+					+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? " + "WHERE Id = ?");
+
+			ps.setString(1, obj.getName());
+			ps.setString(2, obj.getEmail());
+			ps.setDate(3, new java.sql.Date(obj.getBithDate().getTime()));
+			ps.setDouble(4, obj.getBaseSalary());
+			ps.setInt(5, obj.getDepartment().getId());
+			ps.setInt(6, obj.getId());
+			ps.executeUpdate();
+		} catch (SQLException i) {
+			throw new DbException(i.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+		}
 
 	}
 
