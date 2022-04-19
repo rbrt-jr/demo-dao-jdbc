@@ -83,7 +83,7 @@ public class SellerDaoJDBC implements SellerDao {
 	public void deleteById(Integer id) {
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("DELETE FROM seller \r\n" + "WHERE Id = ?");
+			ps = con.prepareStatement("DELETE FROM seller " + "WHERE Id = ?");
 
 			ps.setInt(1, id);
 
