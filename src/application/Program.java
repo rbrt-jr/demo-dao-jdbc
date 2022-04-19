@@ -1,24 +1,26 @@
 package application;
 
-import java.util.Date;
+import java.util.Scanner;
 
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
-import model.entities.Department;
-import model.entities.Seller;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
 		SellerDao sellerDao = DaoFactory.createSellerDao();
+		
+		Scanner sc = new Scanner(System.in);
 
 		//Seller seller = null;
 		
-		Seller seller = sellerDao.findById(1);
-		seller.setName("Martha Waine");
-		sellerDao.update(seller);
-		System.out.println("Update completed!");
+		System.out.print("Enter id for delete test: ");
+		int idTest = sc.nextInt();
+		sellerDao.deleteById(idTest);
+		System.out.println("Delete is completed!");
+		
+		sc.close();
 		
 		
 		
